@@ -1,0 +1,8 @@
+PyQt5
+opencv-python
+numpy
+torch
+torchvision
+dlib
+pyinstaller
+requests
