@@ -69,7 +69,7 @@ class FaceAnalyzer:
             emotion = self.emotion_labels[predicted.item()]
         return emotion
     
-    def generate_id_photo(self, image, face, emotion):
+    def generate_id_photo(self, image, face, emotion, bg_color="白色"):
         if emotion not in ['Neutral', 'Happy']:
             return None
             
@@ -80,8 +80,16 @@ class FaceAnalyzer:
             input_img = f.read()
         result = remove(input_img)
         fg = Image.open(io.BytesIO(result)).convert("RGBA")
-        bg_color = (255, 255, 255)
-        bg = Image.new("RGBA", fg.size, bg_color + (255,))
+        
+        # 根据选择的背景颜色设置背景
+        if bg_color == "红色":
+            bg_color_rgb = (255, 0, 0)  # 红色
+        elif bg_color == "蓝色":
+            bg_color_rgb = (0, 0, 255)  # 蓝色
+        else:  # 默认白色
+            bg_color_rgb = (255, 255, 255)  # 白色
+        
+        bg = Image.new("RGBA", fg.size, bg_color_rgb + (255,))
         final = Image.alpha_composite(bg, fg)
         final_byte_array = io.BytesIO()
         final.save(final_byte_array, format="PNG")
