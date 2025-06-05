@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import pywt
 
 class ImageProcessor:
     def __init__(self):
@@ -120,6 +121,57 @@ class ImageProcessor:
         # Normalize
         cv2.normalize(img_back, img_back, 0, 255, cv2.NORM_MINMAX)
         return img_back.astype(np.uint8)
+    
+    def apply_wavelet(self, image, operation):
+        """应用小波变换处理图像"""
+        if len(image.shape) > 2:  # Convert to grayscale if color
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        
+        # 执行小波变换
+        coeffs = pywt.wavedec2(image, 'haar', level=2)
+        cA = coeffs[0]
+        coeffs_details = coeffs[1:]
+        
+        if operation == "wavelet_denoising":
+            # 小波去噪 - 对所有高频系数进行阈值处理
+            threshold = np.std(coeffs[1][0]) * 2  # 使用第一级水平细节的std作为阈值基准
+            new_coeffs = [cA]
+            for detail in coeffs_details:
+                new_detail = []
+                for band in detail:
+                    new_detail.append(pywt.threshold(band, threshold, mode='soft'))
+                new_coeffs.append(tuple(new_detail))
+            coeffs = new_coeffs
+            
+        elif operation == "wavelet_edge":
+            # 小波边缘增强 - 增强所有高频系数
+            new_coeffs = [cA]
+            for detail in coeffs_details:
+                new_detail = []
+                for band in detail:
+                    new_detail.append(band * 1.5)
+                new_coeffs.append(tuple(new_detail))
+            coeffs = new_coeffs
+            
+        elif operation == "wavelet_compression":
+            # 小波压缩 - 保留低频部分，置零所有高频系数
+            new_coeffs = [cA]
+            for detail in coeffs_details:
+                new_detail = []
+                for band in detail:
+                    new_detail.append(np.zeros_like(band))
+                new_coeffs.append(tuple(new_detail))
+            coeffs = new_coeffs
+        
+        # 逆小波变换
+        processed = pywt.waverec2(coeffs, 'haar')
+        
+        # 裁剪到原始尺寸（小波变换可能导致尺寸略有变化）
+        processed = processed[:image.shape[0], :image.shape[1]]
+        
+        # 归一化到0-255
+        cv2.normalize(processed, processed, 0, 255, cv2.NORM_MINMAX)
+        return processed.astype(np.uint8)
     
     def apply_Morphological(self, image, operation):
         kernel = np.ones((5,5), np.uint8)

@@ -158,6 +158,12 @@ class PhotoApp(QMainWindow):
         self.combo_edge.currentIndexChanged.connect(self.apply_operations)
         process_layout.addWidget(self.combo_edge)
         
+        process_layout.addWidget(QLabel("小波变换:"))
+        self.combo_wavelet = QComboBox()
+        self.combo_wavelet.addItems(["无", "小波去噪", "小波边缘增强", "小波压缩"])
+        self.combo_wavelet.currentIndexChanged.connect(self.apply_operations)
+        process_layout.addWidget(self.combo_wavelet)
+        
         process_layout.addWidget(QLabel("证件照背景颜色:"))
         self.combo_bg_color = QComboBox()
         self.combo_bg_color.addItems(["白色", "红色", "蓝色"])
@@ -301,6 +307,7 @@ class PhotoApp(QMainWindow):
         frequency_type = self.combo_frequency.currentText()
         morphological_type = self.combo_Morphological.currentText()
         edge_type = self.combo_edge.currentText()
+        wavelet_type = self.combo_wavelet.currentText()
         
         processed = self.current_image.copy()
 
@@ -348,6 +355,14 @@ class PhotoApp(QMainWindow):
 
         if edge_type == "边缘检测":
             processed = self.image_processor.apply_edge_detection(processed)
+            
+        if wavelet_type != "无":
+            wavelet_map = {
+                "小波去噪": "wavelet_denoising",
+                "小波边缘增强": "wavelet_edge",
+                "小波压缩": "wavelet_compression"
+            }
+            processed = self.image_processor.apply_wavelet(processed, wavelet_map[wavelet_type])
         
         self.current_processed_image = processed
         self.display_image(processed, self.processed_image)
