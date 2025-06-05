@@ -4,9 +4,9 @@
 之后对照片进行人脸检测与人脸表情识别，当检测到人脸且表情为中性/高兴时，允许生成证件照，用户可选择合适的背景颜色（白蓝红），同时支持保存生成的证件照
 
 ## 项目相关
-1.使用了dlib库训练好的模型 “shape_predictor_68_face_landmarks.dat” 进行人脸68个特征点标定以定位人脸
-2.基于pytorch框架，利用FER2013数据集与自己设计的CNN，训练了人脸表情识别模型，可将人脸表情分为7类：'angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'，模型一准确率在60%左右
-3.使用了rembg库训练好的模型进行背景的去除以满足证件照纯色背景的要求
+1. 使用了dlib库训练好的模型 “shape_predictor_68_face_landmarks.dat” 进行人脸68个特征点标定以定位人脸
+2. 基于pytorch框架，利用FER2013数据集与自己设计的CNN，训练了人脸表情识别模型，可将人脸表情分为7类：'angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'，模型一准确率在60%左右
+3. 使用了rembg库训练好的模型进行背景的去除以满足证件照纯色背景的要求
 
 ## 项目部署
 项目在python==3.8上可运行（其他版本未测试）
