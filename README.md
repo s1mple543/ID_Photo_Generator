@@ -10,7 +10,7 @@
 
 ## 项目部署
 项目在python==3.8上可运行（其他版本未测试）
-首先在终端进入项目所在文件夹
+首先在终端进入项目所在文件夹（命名为ID_Photo_Generator）
 在命令行输入：
 pip install -r requirements.txt (-i https://pypi.tuna.tsinghua.edu.cn/simple)
 之后再输入：

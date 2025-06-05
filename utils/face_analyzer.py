@@ -11,7 +11,7 @@ import io
 from io import BytesIO
 
 class FaceAnalyzer:
-    def __init__(self, models_dir="demo2\models"):
+    def __init__(self, models_dir="ID_Photo_Generator\models"):
         self.models_dir = models_dir
         os.makedirs(self.models_dir, exist_ok=True)
         
