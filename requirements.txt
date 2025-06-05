@@ -3,6 +3,6 @@ opencv-python
 numpy
 torch
 torchvision
-dlib
-pyinstaller
 requests
+matplotlib
+rembg
