@@ -6,20 +6,24 @@
 ## 项目相关
 1.使用了dlib库训练好的模型 “shape_predictor_68_face_landmarks.dat” 进行人脸68个特征点标定以定位人脸
 2.基于pytorch框架，利用FER2013数据集与自己设计的CNN，训练了人脸表情识别模型，可将人脸表情分为7类：'angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'，模型一准确率在66%左右，模型二准确率在64%左右（happy表情识别率都非常高）
+
 ![alt text](image-2.png)
+
 ![alt text](image.png)
+
 ![alt text](image-1.png)
+
 3.使用了rembg库进行背景的去除以满足证件照纯色背景的要求
 
 ## 项目部署
 项目在python==3.8上可运行（其他版本未测试）
-首先在终端进入项目所在文件夹（命名为ID_Photo_Generator）
-在命令行输入：
-pip install -r requirements.txt (-i https://pypi.tuna.tsinghua.edu.cn/simple)
-之后再输入：
-pip install dlib-19.22.99-cp38-cp38-win_amd64.whl(文件夹中有该文件)
-最后输入：
-python main.py
+- 首先在终端进入项目所在文件夹（命名为ID_Photo_Generator）
+- 在命令行输入：
+`pip install -r requirements.txt (-i https://pypi.tuna.tsinghua.edu.cn/simple)`
+- 之后再输入：
+`pip install dlib-19.22.99-cp38-cp38-win_amd64.whl`(文件夹中有该文件)
+- 最后输入：
+` python main.py `
 即可运行项目
 
 ## 功能清单
