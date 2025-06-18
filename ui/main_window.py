@@ -29,7 +29,8 @@ class TrainingThread(QThread):
             model_name = os.path.splitext(os.path.basename(self.model_path))[0]
             self.progress_updated.emit(50, f"开始训练 {model_name} 模型...")
             
-            self.trainer.train_model(self.data_dir, self.model_path, epochs=20)
+            # 直接调用 trainer 的方法，无需修改
+            self.trainer.train_model(self.data_dir, self.model_path, epochs=50)  # 可以增加epochs
             
             self.progress_updated.emit(100, "训练完成!")
             self.finished.emit(True, f'模型 "{model_name}" 训练完成并已保存')
@@ -40,6 +41,13 @@ class PhotoApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("智能证件照生成器")
+        self.background = QLabel(self)
+        self.background.setAlignment(Qt.AlignCenter)
+        
+        # 加载图片
+        self.load_background_image("bg.jpg")
+        self.background.lower()
+        
         self.setGeometry(100, 100, 1500, 800)
         
         self.image_processor = ImageProcessor()
@@ -53,6 +61,23 @@ class PhotoApp(QMainWindow):
         
         self.init_ui()
         self.check_models()
+    
+    def load_background_image(self, image_path):
+        """加载并设置背景图片"""
+        if os.path.exists(image_path):
+            pixmap = QPixmap(image_path)
+            self.background.setPixmap(pixmap)
+            self.background.setScaledContents(True)  # 关键：启用缩放内容
+        else:
+            print(f"背景图片不存在: {image_path}")
+
+    def resizeEvent(self, event):
+        """重写resize事件处理函数，调整背景大小"""
+        self.background.setGeometry(0, 0, self.width(), self.height())
+        super().resizeEvent(event)
+        
+        # 同时调用你原来的调整图像大小的方法
+        self.adjust_image_sizes()
     
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Resize:
