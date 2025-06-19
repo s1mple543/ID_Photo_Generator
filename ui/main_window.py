@@ -29,7 +29,7 @@ class TrainingThread(QThread):
             model_name = os.path.splitext(os.path.basename(self.model_path))[0]
             self.progress_updated.emit(50, f"开始训练 {model_name} 模型...")
             
-            # 直接调用 trainer 的方法，无需修改
+            # 直接调用 trainer 的方法
             self.trainer.train_model(self.data_dir, self.model_path, epochs=50)  # 可以增加epochs
             
             self.progress_updated.emit(100, "训练完成!")
@@ -76,7 +76,7 @@ class PhotoApp(QMainWindow):
         self.background.setGeometry(0, 0, self.width(), self.height())
         super().resizeEvent(event)
         
-        # 同时调用你原来的调整图像大小的方法
+        # 调用调整图像大小的方法
         self.adjust_image_sizes()
     
     def eventFilter(self, obj, event):
@@ -336,7 +336,6 @@ class PhotoApp(QMainWindow):
         
         processed = self.current_image.copy()
 
-        # Apply transformations in a logical order
         if angle != 0:
             processed = self.image_processor.rotate(processed, angle)
             
@@ -425,6 +424,7 @@ class PhotoApp(QMainWindow):
         self.display_image(processed, self.processed_image)
         self.btn_save_processed.setEnabled(True)
     
+    # 保存处理后图片
     def save_processed_image(self):
         if self.current_processed_image is None:
             QMessageBox.warning(self, "错误", "没有可保存的处理后图像")
@@ -441,6 +441,7 @@ class PhotoApp(QMainWindow):
             else:
                 QMessageBox.warning(self, "保存失败", "无法保存图片文件")
     
+    # 保存证件照
     def save_id_photo(self):
         if not hasattr(self, 'current_id_photo') or self.current_id_photo is None:
             QMessageBox.warning(self, "错误", "没有可保存的证件照")
@@ -457,6 +458,7 @@ class PhotoApp(QMainWindow):
             else:
                 QMessageBox.warning(self, "保存失败", "无法保存图片文件")
     
+    # 更改模型
     def change_model(self):
         model_name = self.combo_model.currentText()
         if self.face_analyzer.load_model(model_name):
@@ -464,6 +466,7 @@ class PhotoApp(QMainWindow):
         else:
             QMessageBox.warning(self, "错误", f"无法加载模型 {model_name}")
     
+    # 选择训练数据集
     def select_training_data(self):
         data_dir = QFileDialog.getExistingDirectory(
             self, "选择训练数据集目录", 
@@ -476,6 +479,7 @@ class PhotoApp(QMainWindow):
                 f"已选择数据集目录: {data_dir}\n\n"
                 "请确保目录包含以下子目录: angry, disgust, fear, happy, neutral, sad, surprise")
     
+    # 训练自定义模型
     def train_custom_model(self):
         if not hasattr(self, 'training_data_dir') or not self.training_data_dir:
             QMessageBox.warning(self, "错误", "请先选择训练数据集目录")
@@ -499,6 +503,7 @@ class PhotoApp(QMainWindow):
         self.train_thread.finished.connect(self.on_training_finished)
         self.train_thread.start()
     
+    # 更新训练进度
     def update_train_progress(self, value, message):
         self.train_progress.setValue(value)
         self.statusBar().showMessage(message)
@@ -513,6 +518,7 @@ class PhotoApp(QMainWindow):
         else:
             QMessageBox.critical(self, "训练失败", message)
     
+    # 显示图片
     def display_image(self, image, label):
         if image is None:
             label.clear()

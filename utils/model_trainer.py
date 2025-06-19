@@ -11,7 +11,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 class ImprovedEmotionCNN(nn.Module):
     def __init__(self, num_classes=7):
         super(ImprovedEmotionCNN, self).__init__()
-        # 更深的卷积网络结构
+        # 卷积网络结构
         self.features = nn.Sequential(
             nn.Conv2d(1, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64),
@@ -41,7 +41,7 @@ class ImprovedEmotionCNN(nn.Module):
             nn.Dropout(0.25),
         )
         
-        # 更复杂的全连接层
+        # 全连接层（用于分类）
         self.classifier = nn.Sequential(
             nn.Linear(256 * 6 * 6, 1024),
             nn.BatchNorm1d(1024),
@@ -62,6 +62,7 @@ class ImprovedEmotionCNN(nn.Module):
         x = self.classifier(x)
         return x
 
+# 数据集类
 class EmotionDataset(Dataset):
     def __init__(self, data_dir, transform=None):
         self.data_dir = data_dir
@@ -91,10 +92,11 @@ class EmotionDataset(Dataset):
             
         return image, label
 
+# 训练
 class ModelTrainer:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # 更复杂的数据增强
+        # 数据增强
         self.transform = transforms.Compose([
             transforms.Resize((48, 48)),
             transforms.RandomHorizontalFlip(),

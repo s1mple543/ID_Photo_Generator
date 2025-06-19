@@ -5,7 +5,7 @@ from torchvision import transforms
 import cv2
 import numpy as np
 from PIL import Image
-from .model_trainer import ImprovedEmotionCNN  # 修改导入的模型类
+from .model_trainer import ImprovedEmotionCNN
 from rembg import remove
 import io
 from io import BytesIO
@@ -32,7 +32,7 @@ class FaceAnalyzer:
         self.emotion_model = None
         self.emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']  # 注意标签顺序与训练时一致
         
-        # 图像预处理（保持不变）
+        # 图像预处理
         self.transform = transforms.Compose([
             transforms.ToPILImage(),
             transforms.Grayscale(),
@@ -48,7 +48,7 @@ class FaceAnalyzer:
             return False
         
         self.current_model_name = model_name
-        # 使用新的 ImprovedEmotionCNN
+        # 使用ImprovedEmotionCNN
         self.emotion_model = ImprovedEmotionCNN().to(torch.device("cpu"))
         self.emotion_model.load_state_dict(torch.load(model_path, map_location='cpu'))
         self.emotion_model.eval()

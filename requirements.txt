@@ -6,3 +6,4 @@ torchvision
 requests
 matplotlib
 rembg
+onnxruntime
