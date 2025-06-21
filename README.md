@@ -54,9 +54,9 @@ ID_Photo_Generator/
 借助 dlib 库中的预训练模型 shape_predictor_68_face_landmarks.dat 实现人脸特征点提取，精准识别面部轮廓、眼睛、嘴角等关键区域，为后续对齐、裁剪和表情分析提供可靠依据。
 
 2. 表情识别模型（CNN）
-使用 PyTorch 框架搭建了两个自定义 CNN 网络，基于 FER2013 数据集进行训练，表情分为七类：angry, disgust, fear, happy, neutral, sad, surprise
+- 使用 PyTorch 框架搭建了两个自定义 CNN 网络，基于 FER2013 数据集进行训练，表情分为七类：angry, disgust, fear, happy, neutral, sad, surprise
+- 其中模型一准确率约为 66%，模型二为 64%，均在 happy 分类上表现最优。
 
-其中模型一准确率约为 66%，模型二为 64%，均在 happy 分类上表现最优。
 ![alt text](image-2.png)
 
 ![alt text](image.png)
