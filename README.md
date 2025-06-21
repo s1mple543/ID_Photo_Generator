@@ -16,6 +16,7 @@
 
 ## 项目结构图
 ![alt text](image-3.png)
+```
 ID_Photo_Generator/
 │
 ├── 前端模块 (UI)
@@ -47,7 +48,7 @@ ID_Photo_Generator/
     ├── main.py：程序入口（启动 GUI 并调度流程）
     ├── requirements.txt：依赖列表
     └── dlib 安装包：用于本地离线安装
-
+```
 ## 技术实现详解
 1. 人脸定位（68点标定）
 借助 dlib 库中的预训练模型 shape_predictor_68_face_landmarks.dat 实现人脸特征点提取，精准识别面部轮廓、眼睛、嘴角等关键区域，为后续对齐、裁剪和表情分析提供可靠依据。
