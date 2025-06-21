@@ -58,8 +58,11 @@ ID_Photo_Generator/
 
 其中模型一准确率约为 66%，模型二为 64%，均在 happy 分类上表现最优。
 ![alt text](image-2.png)
+
 ![alt text](image.png)
+
 ![alt text](image-1.png)
+
 CNN结构如下：
 ```python
 class ImprovedEmotionCNN(nn.Module):
