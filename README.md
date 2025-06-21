@@ -15,7 +15,7 @@
 -  图形化界面交互（基于 PyQt5）
 
 ## 项目结构图
-![alt text|400](image-4.png)
+![alt text|100](image-4.png)
 ```
 ID_Photo_Generator/
 │
